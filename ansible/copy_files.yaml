@@ -1,0 +1,31 @@
+---
+- name: Deploy files to different servers
+  hosts: crm
+  become: yes
+  tasks:
+    - name: Copy systemd promtail
+      ansible.builtin.copy:
+        src: "/root/promtail/etc/systemd/promtail.service"
+        dest: "/etc/systemd/system/promtail.service"
+      #loop:
+    #    - nginx.conf
+    #    - index.html
+      #when: "'web_servers' in group_names"
+
+    - name: Copy bin promtail
+      ansible.builtin.copy:
+        src: "/root/promtail/usr/local/bin/promtail"
+        dest: "/usr/local/bin/promtail"
+        mode: "0755"
+        owner: "root"
+        group: "root"
+#loop:
+    #    - postgresql.conf
+    #    - pg_hba.conf
+     # when: "'db_servers' in group_names"
+
+    - name: Copy config promtail
+      ansible.builtin.copy:
+        src: "/root/promtail/usr/local/etc/promtail.yaml"
+        dest: "/usr/local/etc/promtail.yaml"
+      #when: "'prometheus' in group_names"
